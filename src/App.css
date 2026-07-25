@@ -112,3 +112,17 @@
 @media(max-height:850px) and (min-width:981px){.hero-home{padding-top:30px}.hero-home__grid{padding-bottom:40px}.hero-copy h1{margin-bottom:22px}.hero-copy>p:not(.hero-trust):not(.hero-service-area){margin-bottom:24px}}
 @media(max-width:1050px){.hero-visual--photo{height:auto}.hero-home__grid{padding-bottom:0}.hero-visual--photo{margin-bottom:clamp(42px,6vw,56px)}}
 @media(max-width:700px){.hero-home{min-height:auto}.hero-visual--photo{height:auto}}
+
+/* One fixed-header offset system: main handles page entry, sections handle anchors. */
+.hero-home{padding-top:clamp(30px,4vw,52px)}
+.page-hero{padding-top:clamp(52px,6vw,78px)}
+.process-section{padding-bottom:clamp(48px,5vw,64px)}
+
+@media(max-width:860px){
+  .hero-home{padding-top:44px}
+  .page-hero{padding-top:clamp(48px,8vw,64px)}
+}
+
+@media(max-width:700px){
+  .process-section{padding-bottom:44px}
+}

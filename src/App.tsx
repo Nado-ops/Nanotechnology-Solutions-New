@@ -267,7 +267,6 @@ function NotFound(){return <Layout><PageHero eyebrow="404" title="That Page Isnâ
 
 function App() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
-  useEffect(()=>{window.scrollTo(0,0)},[path])
   if(path==='/') return <Home/>
   if(path==='/solutions') return <SolutionsIndex/>
   if(path.startsWith('/solutions/')) return <SolutionPage slug={path.split('/')[2]}/>

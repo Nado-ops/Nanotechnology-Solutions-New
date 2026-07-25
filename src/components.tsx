@@ -44,6 +44,29 @@ export function Footer() {
   </footer>
 }
 
+export function ScrollToTop({ pathname }: { pathname: string }) {
+  useEffect(() => {
+    const scrollToDestination = () => {
+      const hash = window.location.hash
+      if (hash) {
+        const target = document.getElementById(decodeURIComponent(hash.slice(1)))
+        if (target) {
+          target.scrollIntoView({ block: 'start', behavior: 'instant' as ScrollBehavior })
+          return
+        }
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior })
+    }
+    const frame = window.requestAnimationFrame(scrollToDestination)
+    window.addEventListener('hashchange', scrollToDestination)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('hashchange', scrollToDestination)
+    }
+  }, [pathname])
+  return null
+}
+
 export function Layout({ children }: { children: ReactNode }) {
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -97,7 +120,7 @@ export function Layout({ children }: { children: ReactNode }) {
       document.removeEventListener('pointerout', magneticLeave)
     }
   }, [])
-  return <><a className="skip-link" href="#main">Skip to content</a><Header /><main id="main">{children}</main><Footer /><a className="support-fab" href="/support" aria-label="Get technical support"><span>?</span> Technical support</a></>
+  return <><ScrollToTop pathname={window.location.pathname} /><a className="skip-link" href="#main">Skip to content</a><Header /><main id="main">{children}</main><Footer /><a className="support-fab" href="/support" aria-label="Get technical support"><span>?</span> Technical support</a></>
 }
 
 export function SectionHeading({ eyebrow, title, text, light = false }: { eyebrow: string; title: string; text?: string; light?: boolean }) {
