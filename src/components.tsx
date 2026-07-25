@@ -45,6 +45,58 @@ export function Footer() {
 }
 
 export function Layout({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    const revealTargets = document.querySelectorAll('.section, .service-card, .showcase-card, .industry-grid a')
+    const observer = !reduced && 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed')
+          observer?.unobserve(entry.target)
+        }
+      })
+    }, { threshold: .08, rootMargin: '0px 0px -35px' }) : null
+    revealTargets.forEach(el => observer ? observer.observe(el) : el.classList.add('is-revealed'))
+
+    function pointerMove(event: PointerEvent) {
+      if (!finePointer || reduced) return
+      const target = (event.target as Element).closest<HTMLElement>('[data-spotlight], .service-card')
+      if (!target) return
+      const rect = target.getBoundingClientRect()
+      target.style.setProperty('--mx', `${event.clientX - rect.left}px`)
+      target.style.setProperty('--my', `${event.clientY - rect.top}px`)
+      if (target.classList.contains('hero-home')) {
+        target.style.setProperty('--px', `${(event.clientX / window.innerWidth - .5) * 10}px`)
+        target.style.setProperty('--py', `${(event.clientY / window.innerHeight - .5) * 8}px`)
+      }
+    }
+    function magneticMove(event: PointerEvent) {
+      if (!finePointer || reduced) return
+      const button = (event.target as Element).closest<HTMLElement>('.button')
+      if (!button) return
+      const rect = button.getBoundingClientRect()
+      const x = (event.clientX - rect.left - rect.width / 2) * .08
+      const y = (event.clientY - rect.top - rect.height / 2) * .08
+      button.style.setProperty('--mag-x', `${Math.max(-4, Math.min(4, x))}px`)
+      button.style.setProperty('--mag-y', `${Math.max(-3, Math.min(3, y))}px`)
+    }
+    function magneticLeave(event: PointerEvent) {
+      const button = (event.target as Element).closest<HTMLElement>('.button')
+      if (!button) return
+      button.style.removeProperty('--mag-x')
+      button.style.removeProperty('--mag-y')
+    }
+    document.addEventListener('pointermove', pointerMove)
+    document.addEventListener('pointermove', magneticMove)
+    document.addEventListener('pointerout', magneticLeave)
+    return () => {
+      observer?.disconnect()
+      document.removeEventListener('pointermove', pointerMove)
+      document.removeEventListener('pointermove', magneticMove)
+      document.removeEventListener('pointerout', magneticLeave)
+    }
+  }, [])
   return <><a className="skip-link" href="#main">Skip to content</a><Header /><main id="main">{children}</main><Footer /><a className="support-fab" href="/support" aria-label="Get technical support"><span>?</span> Technical support</a></>
 }
 
@@ -57,7 +109,7 @@ export function PageHero({ eyebrow, title, text, actions }: { eyebrow: string; t
 }
 
 export function CTA({ title = 'Ready to Transform Your Technology Environment?', text = 'Let us assess your current infrastructure and design a practical technology solution for your organisation.' }) {
-  return <section className="cta"><div className="container cta__inner"><div><span>Ready to move forward?</span><h2>{title}</h2><p>{text}</p></div><div className="button-row"><a className="button button--white" href="/contact?type=assessment">Request a Site Assessment</a><a className="button button--ghost-white" href="/contact">Contact Our Team</a></div></div></section>
+  return <section className="cta" data-spotlight><div className="container cta__inner"><div><span>Ready to move forward?</span><h2>{title}</h2><p>{text}</p></div><div className="button-row"><a className="button button--white" href="/contact?type=assessment">Request a Site Assessment</a><a className="button button--ghost-white" href="/contact">Contact Our Team</a></div></div></section>
 }
 
 export function LeadForm({ kind = 'contact' }: { kind?: 'contact' | 'support' }) {
