@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
 import { company } from './config'
 import { solutions } from './data'
@@ -90,17 +90,43 @@ function ServiceBento() {
   return <section className="section section--soft premium-services" id="services" data-spotlight><div className="container"><SectionHeading eyebrow="Core services" title="Technology Capabilities That Work as One" text="Select a capability to see how one accountable partner connects infrastructure, users, systems and support." /><div className={`service-grid service-bento ${active!==null?'has-active':''}`}>{services.map((s,i) => <article className={`service-card bento-${i} ${active===i?'is-active':''}`} key={`${s[0]}-${i}`} onClick={()=>activate(i)}><div className="card-shine"></div><div className="icon-box">{s[3]}</div><small>0{i+1}</small><h3>{s[1]}</h3><p>{s[2]}</p><div className="service-extra" aria-hidden={active!==i}><ul>{s[4].map(x=><li key={x}>✓ {x}</li>)}</ul></div><a href={`/solutions/${s[0]}`} onClick={e=>e.stopPropagation()}>Explore solution <span>↗</span></a></article>)}</div></div></section>
 }
 
+function PortfolioMockup({type}:{type:string}) {
+  return <div className={`portfolio-mockup mockup-${type}`} aria-hidden="true"><span className="concept-label">Concept Preview</span><div className="mock-layer layer-a"></div><div className="mock-layer layer-b"></div><div className="mock-layer layer-c"></div><div className="mock-accent"></div><div className="mock-lines"><i></i><i></i><i></i></div></div>
+}
+
 function CreativePortfolio() {
-  const categories = ['All','Logo Design','Company Profiles','Websites','Business Cards','Flyers & Brochures','Social Media Design','Presentations','Marketing Materials']
+  const projects = [
+    {category:'Logo Design',title:'Identity Systems',description:'Distinctive visual identities created for businesses, schools and organisations.',tags:['Brand Strategy','Logo Systems','Brand Guidelines'],deliverables:['Primary and secondary logo concepts','Colour and typography direction','Brand-guideline document'],type:'logo'},
+    {category:'Company Profiles',title:'Company Profile Design',description:'Editorial documents that communicate capability, credibility and purpose.',tags:['Editorial Layout','Corporate Design','Print Ready'],deliverables:['Cover and visual direction','Internal page system','Print and digital exports'],type:'profile'},
+    {category:'Websites',title:'Website Experiences',description:'Responsive digital experiences designed around real audiences and goals.',tags:['UX Design','Responsive UI','Content Design'],deliverables:['Desktop and mobile layouts','Reusable interface system','Developer-ready design direction'],type:'website'},
+    {category:'Business Cards',title:'Business Card Systems',description:'Tactile, professional contact pieces with a consistent brand hierarchy.',tags:['Print Design','Typography','Brand Details'],deliverables:['Front and back concepts','Print-ready artwork','Digital contact-card option'],type:'cards'},
+    {category:'Flyers & Brochures',title:'Campaign Print Design',description:'Layered flyers, brochures and posters built to make information easy to act on.',tags:['Flyers','Brochures','Posters'],deliverables:['Campaign cover direction','Flexible page layouts','Print-ready production files'],type:'print'},
+    {category:'Social Media Design',title:'Social Campaign Systems',description:'Coordinated post, story and carousel formats for consistent campaigns.',tags:['Social Posts','Stories','Carousel'],deliverables:['Square post templates','Story-format designs','Campaign carousel system'],type:'social'},
+    {category:'Presentations',title:'Presentation Design',description:'Clear, confident presentation systems for pitches, reports and training.',tags:['Slide Systems','Data Stories','Presentations'],deliverables:['Presentation cover','Content-slide system','Chart and data styles'],type:'slides'},
+    {category:'Marketing Materials',title:'Integrated Brand Collateral',description:'Connected physical and digital materials that extend the brand consistently.',tags:['Banners','Digital Ads','Email Signatures'],deliverables:['Pull-up banner direction','Branded document system','Digital campaign assets'],type:'marketing'},
+  ]
+  const categories = ['All',...projects.map(p=>p.category)]
+  const descriptors = ['Brand Identity','Digital Design','Marketing','Web Experiences']
   const [filter,setFilter]=useState('All')
-  const [preview,setPreview]=useState<string|null>(null)
+  const [preview,setPreview]=useState<number|null>(null)
+  const [active,setActive]=useState<number|null>(null)
+  const touchStart=useRef(0)
+  const closeButton=useRef<HTMLButtonElement>(null)
+  const navigate=useCallback((direction:number)=>setPreview(current=>current===null?null:(current+direction+projects.length)%projects.length),[projects.length])
   useEffect(()=>{
-    function key(e:KeyboardEvent){if(e.key==='Escape')setPreview(null)}
+    function key(e:KeyboardEvent){if(e.key==='Escape')setPreview(null);if(e.key==='ArrowRight'&&preview!==null)navigate(1);if(e.key==='ArrowLeft'&&preview!==null)navigate(-1)}
     window.addEventListener('keydown',key)
     return()=>window.removeEventListener('keydown',key)
-  },[])
-  const visible = categories.slice(1).filter(x=>filter==='All'||x===filter)
-  return <section className="section brand-section creative-brand"><div className="container"><div className="creative-heading"><SectionHeading eyebrow="Creative business services" title="Technology Meets Creative Design" text="From infrastructure and business systems to logos, websites and company profiles, we help organisations build both their technology and their brand."/><a className="button button--dark" href="/solutions/branding-marketing">Explore Creative Services</a></div><div className="portfolio-filters" aria-label="Portfolio filters">{categories.map(x=><button type="button" aria-pressed={filter===x} className={filter===x?'is-active':''} key={x} onClick={()=>setFilter(x)}>{x}</button>)}</div><div className="interactive-portfolio">{visible.map((x,i)=><button type="button" key={x} onClick={()=>setPreview(x)} className={`portfolio-placeholder pp-${i%4}`}><span>APPROVED WORK TO BE SUPPLIED</span><b>{x}</b><small>Open placeholder preview ↗</small></button>)}</div></div>{preview&&<div className="portfolio-modal" role="dialog" aria-modal="true" aria-label={`${preview} preview`} onClick={()=>setPreview(null)}><div onClick={e=>e.stopPropagation()}><button className="modal-close" type="button" onClick={()=>setPreview(null)} aria-label="Close preview">×</button><span>Portfolio placeholder</span><h3>{preview}</h3><p>Verified project imagery and details will appear here once approved. No client work has been invented.</p></div></div>}</section>
+  },[preview,navigate])
+  useEffect(()=>{
+    if(preview===null)return
+    const previous=document.body.style.overflow
+    document.body.style.overflow='hidden'
+    closeButton.current?.focus()
+    return()=>{document.body.style.overflow=previous}
+  },[preview])
+  const visible = projects.map((p,i)=>({...p,index:i})).filter(p=>filter==='All'||p.category===filter)
+  return <section className="section brand-section creative-brand" id="creative-studio" data-spotlight><div className="creative-bg" aria-hidden="true"><b>CREATE</b><i></i><i></i><span>+</span></div><div className="container creative-container"><div className="creative-heading"><div className="creative-heading__copy"><span className="creative-kicker">Creative Studio</span><h2>Technology Meets <em>Creative Design</em></h2><p>From infrastructure and business systems to logos, websites and company profiles, we help organisations build both their technology and their brand.</p><div className="descriptor" aria-label="Brand Identity, Digital Design, Marketing and Web Experiences">{descriptors.map((x,i)=><span style={{animationDelay:`${i*2.4}s`}} key={x}>{x}</span>)}</div></div><div className="creative-actions"><a className="button button--creative" href="/solutions/branding-marketing">Explore Creative Services <span>↗</span></a><a href="/solutions/branding-marketing#process">View Our Design Process →</a></div></div><div className="portfolio-filters" role="group" aria-label="Portfolio filters">{categories.map(x=><button type="button" aria-pressed={filter===x} className={filter===x?'is-active':''} key={x} onClick={()=>{setFilter(x);setActive(null)}}>{x}</button>)}</div><div className={`creative-bento ${filter!=='All'?'is-filtered':''}`}>{visible.map(p=><article key={p.category} className={`portfolio-piece piece-${p.type} ${active===p.index?'is-active':''}`} onClick={()=>setActive(active===p.index?null:p.index)}><PortfolioMockup type={p.type}/><div className="piece-copy"><small>{p.category}</small><h3>{p.title}</h3><p>{p.description}</p><div>{p.tags.map(x=><span key={x}>{x}</span>)}</div><button type="button" onClick={e=>{e.stopPropagation();setPreview(p.index)}}>View Service <span>↗</span></button></div></article>)}</div></div>{preview!==null&&<div className="portfolio-modal studio-modal" role="dialog" aria-modal="true" aria-label={`${projects[preview].category} concept preview`} onClick={()=>setPreview(null)} onTouchStart={e=>touchStart.current=e.touches[0].clientX} onTouchEnd={e=>{const distance=e.changedTouches[0].clientX-touchStart.current;if(Math.abs(distance)>55)navigate(distance<0?1:-1)}}><div onClick={e=>e.stopPropagation()}><button ref={closeButton} className="modal-close" type="button" onClick={()=>setPreview(null)} aria-label="Close preview">×</button><button className="modal-nav modal-prev" type="button" onClick={()=>navigate(-1)} aria-label="Previous service">‹</button><button className="modal-nav modal-next" type="button" onClick={()=>navigate(1)} aria-label="Next service">›</button><PortfolioMockup type={projects[preview].type}/><div className="modal-copy"><span>Concept Preview • {projects[preview].category}</span><h3>{projects[preview].title}</h3><p>{projects[preview].description}</p><b>Typical deliverables</b><ul>{projects[preview].deliverables.map(x=><li key={x}>✓ {x}</li>)}</ul><a className="button" href="/contact?type=quote">Request This Service</a></div></div></div>}</section>
 }
 
 function Home() {

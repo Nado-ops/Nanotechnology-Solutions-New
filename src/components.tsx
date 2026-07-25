@@ -61,7 +61,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
     function pointerMove(event: PointerEvent) {
       if (!finePointer || reduced) return
-      const target = (event.target as Element).closest<HTMLElement>('[data-spotlight], .service-card')
+      const target = (event.target as Element).closest<HTMLElement>('[data-spotlight], .service-card, .portfolio-piece')
       if (!target) return
       const rect = target.getBoundingClientRect()
       target.style.setProperty('--mx', `${event.clientX - rect.left}px`)
