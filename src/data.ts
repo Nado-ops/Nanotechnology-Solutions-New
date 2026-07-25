@@ -100,14 +100,15 @@ export const solutions: Solution[] = [
     ],
   },
   {
-    slug: 'websites-software', title: 'Websites & Software', icon: '⌗',
-    short: 'Websites, portals and business systems that simplify real operational work.',
-    intro: 'We create maintainable digital tools that connect your customers, teams and existing platforms.',
+    slug: 'websites-software', title: 'Websites, Software and Business Systems', icon: '⌗',
+    short: 'Custom and cloud-based Point of Sale systems for retail stores, service businesses and multi-branch organisations, with sales, inventory, customer management, reporting and accounting integration.',
+    intro: 'We create maintainable websites, software and business systems—including Point of Sale solutions—that connect customers, teams, transactions and operational workflows.',
     cta: 'Discuss Your Digital Project',
     groups: [
       { title: 'Websites', items: ['Business, school, college and non-profit websites', 'WordPress, Divi and Elementor', 'Responsive website design', 'Website maintenance and hosting', 'Website copy and content structure'] },
-      { title: 'Business systems', items: ['Custom web applications', 'Student and customer portals', 'CRM and invoicing systems', 'Point-of-sale systems', 'Online application systems', 'Database systems'] },
+      { title: 'Software and business systems', items: ['Custom web applications', 'Student and customer portals', 'CRM and invoicing systems', 'Point of Sale Systems', 'Online application systems', 'Database systems'] },
       { title: 'Integration & support', items: ['Workflow automation', 'API integrations', 'Moodle and Microsoft 365 integrations', 'Supabase applications', 'Cloudflare deployments', 'Software maintenance'] },
+      { title: 'Point of Sale Systems', items: ['Retail point of sale systems', 'Product and service sales', 'Inventory and stock management', 'Barcode scanning', 'Sales and transaction history', 'Customer management', 'Supplier management', 'User roles and cashier permissions', 'Multiple tills and branches', 'Quotations and invoices', 'Receipts', 'Discounts and promotions', 'Cash, card and electronic payment recording', 'Daily cash-up reports', 'Sales reports and dashboards', 'Low-stock alerts', 'Stock transfers between branches', 'Expense tracking', 'Accounting-system integration where configured and supported', 'Cloud-based access', 'Secure backups', 'Mobile and tablet-friendly interfaces', 'Custom POS development', 'Ongoing support and maintenance', 'Ready for integration with supported payment and accounting platforms'] },
     ],
   },
   {
@@ -137,5 +138,5 @@ export const solutions: Solution[] = [
 export const coreServices = [
   solutions[0], solutions[1], solutions[2], solutions[4],
   { ...solutions[3], title: 'Printing & Communications', short: 'Managed printing and flexible voice systems for connected teams.' },
-  { ...solutions[8], title: 'Websites, Branding & Systems', short: 'Digital products and brand tools designed around real business needs.' },
+  { ...solutions[8], title: 'Websites, Software & POS', short: 'Websites, custom software and Point of Sale systems designed around real operational needs.' },
 ]

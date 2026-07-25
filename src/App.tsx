@@ -91,7 +91,7 @@ function ServiceBento() {
     ['cloud-microsoft-365','Microsoft 365 & Cloud','Secure collaboration, identity and cloud services configured around your team.','☁',['Cloud migration','Identity security','User administration']],
     ['education-technology','Moodle & Student Systems','Connected learning, administration, portal and reporting platforms.','◇',['Moodle LMS','SIS platforms','Connected portals']],
     ['printing-solutions','Printing Solutions','Controlled, trackable printing for campuses and growing organisations.','▣',['PaperCut','Secure release','Print reporting']],
-    ['branding-marketing','Websites, Branding & Marketing','Digital products and creative materials that strengthen your organisation.','✦',['Websites','Brand identity','Marketing assets']],
+    ['websites-software','Websites, Software & POS','Websites, custom systems and Point of Sale software built around real operational workflows.','⌗',['Point of Sale Systems','Custom software','Business websites']],
   ] as const
   const [active,setActive]=useState<number|null>(null)
   function activate(i:number){setActive(active===i?null:i)}
