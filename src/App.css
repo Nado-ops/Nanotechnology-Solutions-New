@@ -138,6 +138,41 @@
   .footer .brand-logo-wrap .brand-logo{max-height:none}
 }
 
+/* Dedicated header logo layout; isolated from legacy generic brand-image rules. */
+.brand-logo-wrap.logo-wrapper{
+  display:flex;
+  align-items:center;
+  flex:0 0 auto;
+  width:300px;
+  min-width:260px;
+  height:72px;
+  padding:0;
+  margin:0;
+  overflow:visible;
+}
+.logo-wrapper .brand-logo.site-logo{
+  display:block;
+  width:100%;
+  height:auto;
+  max-width:none;
+  max-height:72px;
+  object-fit:contain;
+  object-position:left center;
+  padding:0;
+  opacity:1;
+  transform:none;
+}
+
+@media(max-width:1150px){
+  .brand-logo-wrap.logo-wrapper{width:220px;min-width:220px;height:56px}
+  .logo-wrapper .brand-logo.site-logo{max-height:56px}
+}
+
+@media(max-width:700px){
+  .brand-logo-wrap.logo-wrapper{width:175px;min-width:175px;height:46px}
+  .logo-wrapper .brand-logo.site-logo{max-height:46px}
+}
+
 /* One fixed-header offset system: main handles page entry, sections handle anchors. */
 .hero-home{padding-top:clamp(30px,4vw,52px)}
 .page-hero{padding-top:clamp(52px,6vw,78px)}
