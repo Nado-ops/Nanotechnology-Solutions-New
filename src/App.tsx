@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import './App.css'
 import { company } from './config'
 import { solutions } from './data'
@@ -91,7 +92,61 @@ function ServiceBento() {
 }
 
 function PortfolioMockup({type}:{type:string}) {
-  return <div className={`portfolio-mockup mockup-${type}`} aria-hidden="true"><span className="concept-label">Concept Preview</span><div className="mock-layer layer-a"></div><div className="mock-layer layer-b"></div><div className="mock-layer layer-c"></div><div className="mock-accent"></div><div className="mock-lines"><i></i><i></i><i></i></div></div>
+  const lineSet = <span className="preview-lines"><i></i><i></i><i></i></span>
+  const visuals:Record<string,ReactNode> = {
+    logo:<div className="identity-board preview-stage">
+      <div className="identity-meta"><b>VISUAL IDENTITY / 01</b><span>Core system</span></div>
+      <div className="identity-primary"><i>✦</i><strong>FORM</strong><small>Design with purpose.</small></div>
+      <div className="identity-mark"><i>F</i><span>MONOGRAM<br/>01—03</span></div>
+      <div className="identity-grid"><b>F</b><i></i><i></i><i></i><span>Clear space<br/>2× module</span></div>
+      <div className="identity-type"><small>TYPE SYSTEM</small><b>Aa</b><span>MANROPE<br/>Bold / Regular</span></div>
+      <div className="identity-colours"><i></i><i></i><i></i><i></i><span>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04</span></div>
+    </div>,
+    profile:<div className="profile-stack preview-stage">
+      <div className="document page-back"><small>03 / CAPABILITY</small><b>Measured<br/>progress.</b><span className="mini-chart"><i></i><i></i><i></i><i></i></span></div>
+      <div className="document page-middle"><small>02 / CONTENTS</small><ol><li>Who we are <b>04</b></li><li>What we do <b>08</b></li><li>Our approach <b>14</b></li></ol><span className="profile-photo"></span></div>
+      <div className="document page-cover"><small>COMPANY PROFILE</small><span className="cover-image"></span><b>Built for<br/>what’s next.</b><i>2026 / CONCEPT</i></div>
+    </div>,
+    website:<div className="website-suite preview-stage">
+      <div className="browser-mock"><span className="browser-bar"><i></i><i></i><i></i><b>concept.preview</b></span><div className="web-nav"><strong>STUDIO</strong><span>Work&nbsp;&nbsp; Services&nbsp;&nbsp; About</span><i>Start a project</i></div><div className="web-hero"><small>DIGITAL EXPERIENCES</small><b>Clear ideas.<br/><em>Powerful design.</em></b><span>Explore work →</span></div><div className="web-cards"><i></i><i></i><i></i></div></div>
+      <div className="phone-mock"><span></span><div className="phone-ui"><small>STUDIO</small><b>Ideas that<br/>move.</b><i></i><i></i><i></i></div></div>
+      <div className="ui-note"><b>RESPONSIVE UI</b><span>Desktop / Mobile</span></div>
+    </div>,
+    cards:<div className="card-suite preview-stage">
+      <div className="paper-shadow"></div>
+      <div className="business-card card-back"><span>FORM / STUDIO</span><b>Creative direction<br/>Digital design</b><i>concept.preview</i></div>
+      <div className="business-card card-front"><i>✦</i><b>FORM</b><small>DESIGN STUDIO</small></div>
+      <div className="business-card card-angle"><b>Alex Morgan</b><span>Creative Director</span>{lineSet}</div>
+      <small className="stock-note">PREMIUM STOCK · SOFT TOUCH · 450GSM</small>
+    </div>,
+    print:<div className="print-suite preview-stage">
+      <div className="print-sheet poster"><small>CONCEPT SERIES / 01</small><b>MAKE<br/>IDEAS<br/><em>VISIBLE.</em></b><i>Creative services →</i></div>
+      <div className="print-sheet brochure"><span className="brochure-fold"></span><small>DESIGN / DIGITAL / PRINT</small><b>Made to<br/>communicate.</b><i></i>{lineSet}</div>
+      <div className="print-sheet flyer"><small>NEW PERSPECTIVES</small><span></span><b>Creative<br/>thinking.</b><i>VIEW THE SERIES</i></div>
+      <div className="print-caption">CAMPAIGN COLLATERAL <b>03 PIECES</b></div>
+    </div>,
+    social:<div className="social-suite preview-stage">
+      <div className="social-post post-one"><small>01 / INSIGHT</small><b>BUILD<br/><em>BETTER.</em></b><i>→</i></div>
+      <div className="social-post post-two"><small>02 / PROCESS</small><span>THINK</span><b>CREATE</b><i>REFINE</i></div>
+      <div className="social-post post-three"><small>03 / RESULT</small><b>Design that<br/>performs.</b><i></i></div>
+      <div className="social-story"><small>STORY / 9:16</small><b>NEW<br/>IDEAS</b><span>Swipe up ↑</span></div>
+      <div className="campaign-key"><i></i><i></i><i></i><span>CAMPAIGN SYSTEM / 04</span></div>
+    </div>,
+    slides:<div className="slides-suite preview-stage">
+      <div className="laptop"><span className="laptop-screen"><small>STRATEGY / 2026</small><b>Ideas into<br/><em>impact.</em></b><i>01</i></span><span className="laptop-base"></span></div>
+      <div className="slide-card slide-data"><small>03 / GROWTH</small><b>72%</b><span className="data-bars"><i></i><i></i><i></i><i></i></span></div>
+      <div className="slide-card slide-content"><small>02 / APPROACH</small><b>One clear<br/>direction.</b>{lineSet}</div>
+      <span className="deck-count">16:9 DECK · 24 SLIDES</span>
+    </div>,
+    marketing:<div className="marketing-suite preview-stage">
+      <div className="pullup"><span></span><small>CAMPAIGN / 01</small><b>MOVE<br/><em>FORWARD.</em></b><i>Explore →</i></div>
+      <div className="campaign-poster"><small>DESIGN FOR GROWTH</small><b>Make your<br/>next move.</b><span></span></div>
+      <div className="brand-document"><small>CAMPAIGN BRIEF</small><b>2026</b>{lineSet}<i></i></div>
+      <div className="digital-banner"><small>DIGITAL / 1200×628</small><b>Ideas that connect.</b><i>LEARN MORE</i></div>
+      <span className="campaign-note">ONE CAMPAIGN · EVERY TOUCHPOINT</span>
+    </div>,
+  }
+  return <div className={`portfolio-mockup mockup-${type} mockup-premium`} aria-hidden="true"><span className="concept-label">Concept Preview</span>{visuals[type]}</div>
 }
 
 function CreativePortfolio() {
