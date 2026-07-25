@@ -5,8 +5,7 @@ import { solutions } from './data'
 
 export function Logo({ compact = false }: { compact?: boolean }) {
   return <a className={`brand ${compact ? 'brand--compact' : ''}`} href="/" aria-label={`${company.name} home`}>
-    <img src="/assets/nanotechnology-logo.png" alt="" width="54" height="54" />
-    <span><strong>{company.shortName}</strong><small>IT Solutions</small></span>
+    <img src="/images/logo/nanotechnology-logo.png" alt="Nanotechnology IT Solutions logo" />
   </a>
 }
 
@@ -19,7 +18,7 @@ export function Header() {
     return () => window.removeEventListener('scroll', update)
   }, [])
   return <header className={`site-header ${scrolled ? 'site-header--scrolled' : ''}`}>
-    <div className="topbar"><div className="container topbar__inner"><span>Complete technology solutions for organisations</span><div><a href={`tel:${company.phone.replace(/\s/g, '')}`}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a></div></div></div>
+    <div className="topbar"><div className="container topbar__inner"><span>Complete technology solutions for organisations</span><div><a href={company.phoneHref}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a></div></div></div>
     <div className="container nav-wrap">
       <Logo />
       <button className="menu-toggle" type="button" aria-expanded={open} aria-controls="main-nav" onClick={() => setOpen(!open)}><span></span><span></span><span></span><b className="sr-only">Menu</b></button>
@@ -39,7 +38,7 @@ export function Footer() {
       <div><Logo compact /><p>Reliable infrastructure, cloud, education technology, software and support for organisations across Cape Town.</p><p className="tagline">{company.tagline}</p></div>
       <div><h3>Company</h3><a href="/about">About</a><a href="/industries">Industries</a><a href="/projects">Projects</a><a href="/contact">Contact</a><a href="/client-portal">Client Portal</a></div>
       <div><h3>Solutions</h3>{solutions.slice(0, 6).map(s => <a key={s.slug} href={`/solutions/${s.slug}`}>{s.title}</a>)}</div>
-      <div><h3>Contact</h3><a href={`tel:${company.phone.replace(/\s/g, '')}`}>{company.phone}</a><a href={`tel:${company.mobile.replace(/\s/g, '')}`}>{company.mobile}</a><a href={`mailto:${company.email}`}>{company.email}</a><address>{company.address}</address><span>{company.hours}</span></div>
+      <div><h3>Contact</h3><a href={company.phoneHref}>{company.phone}</a><a href={company.whatsappUrl} target="_blank" rel="noreferrer">WhatsApp {company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a><address>{company.address}</address><span>{company.hours}</span></div>
     </div>
     <div className="container footer__bottom"><span>© {new Date().getFullYear()} {company.name}. All rights reserved.</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms & Conditions</a></div></div>
   </footer>
