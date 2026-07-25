@@ -5,7 +5,7 @@ import { solutions } from './data'
 
 export function Logo({ compact = false }: { compact?: boolean }) {
   return <a className={`brand brand-logo-wrap ${compact ? 'brand--compact' : ''}`} href="/" aria-label={`${company.name} home`}>
-    <img className="brand-logo" src="/images/logo/nanotechnology-logo-full-network.png" alt="Nanotechnology IT Solutions logo" />
+    <img className="brand-logo" src={compact ? '/images/logo/nanotechnology-logo-footer-network.png' : '/images/logo/nanotechnology-logo-header-network.png'} alt="Nanotechnology IT Solutions logo" />
   </a>
 }
 

@@ -119,6 +119,25 @@
   .footer .brand-logo-wrap,.footer .brand-logo-wrap.brand--compact{width:185px;height:44px}
 }
 
+/* Header and footer-specific network logos */
+.brand-logo-wrap{width:280px;height:62px;flex:0 0 280px;padding:0;overflow:visible}
+.brand-logo-wrap .brand-logo{display:block;width:100%;height:auto;max-height:62px;object-fit:contain;object-position:left center;opacity:1;transform:none}
+.footer .brand-logo-wrap,.footer .brand-logo-wrap.brand--compact{width:250px;height:auto;flex-basis:250px}
+.footer .brand-logo-wrap .brand-logo{max-height:none}
+
+@media(max-width:1080px){
+  .brand-logo-wrap{width:220px;height:54px;flex-basis:220px}
+  .brand-logo-wrap .brand-logo{max-height:54px}
+  .nav{gap:12px}
+}
+
+@media(max-width:700px){
+  .brand-logo-wrap{width:180px;height:46px;flex-basis:180px}
+  .brand-logo-wrap .brand-logo{max-height:46px}
+  .footer .brand-logo-wrap,.footer .brand-logo-wrap.brand--compact{width:250px;height:auto;flex-basis:250px}
+  .footer .brand-logo-wrap .brand-logo{max-height:none}
+}
+
 /* One fixed-header offset system: main handles page entry, sections handle anchors. */
 .hero-home{padding-top:clamp(30px,4vw,52px)}
 .page-hero{padding-top:clamp(52px,6vw,78px)}
