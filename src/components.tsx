@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 import { company } from './config'
 import { solutions } from './data'
@@ -12,7 +12,13 @@ export function Logo({ compact = false }: { compact?: boolean }) {
 
 export function Header() {
   const [open, setOpen] = useState(false)
-  return <header className="site-header">
+  const [scrolled, setScrolled] = useState(() => window.scrollY > 24)
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 24)
+    window.addEventListener('scroll', update, { passive: true })
+    return () => window.removeEventListener('scroll', update)
+  }, [])
+  return <header className={`site-header ${scrolled ? 'site-header--scrolled' : ''}`}>
     <div className="topbar"><div className="container topbar__inner"><span>Complete technology solutions for organisations</span><div><a href={`tel:${company.phone.replace(/\s/g, '')}`}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a></div></div></div>
     <div className="container nav-wrap">
       <Logo />
@@ -51,8 +57,8 @@ export function PageHero({ eyebrow, title, text, actions }: { eyebrow: string; t
   return <section className="page-hero"><div className="orb orb--one"></div><div className="orb orb--two"></div><div className="container page-hero__content"><nav className="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span>{eyebrow}</span></nav><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{text}</p>{actions && <div className="button-row">{actions}</div>}</div></section>
 }
 
-export function CTA({ title = 'Let Us Build a Better Technology Environment for Your Organisation', text = 'Tell us where your technology is creating friction. We’ll help you plan a practical way forward.' }) {
-  return <section className="cta"><div className="container cta__inner"><div><span>Ready to move forward?</span><h2>{title}</h2><p>{text}</p></div><div className="button-row"><a className="button button--white" href="/contact?type=assessment">Request a Site Assessment</a><a className="button button--ghost-white" href="/contact?type=quote">Request a Quote</a></div></div></section>
+export function CTA({ title = 'Ready to Transform Your Technology Environment?', text = 'Let us assess your current infrastructure and design a practical technology solution for your organisation.' }) {
+  return <section className="cta"><div className="container cta__inner"><div><span>Ready to move forward?</span><h2>{title}</h2><p>{text}</p></div><div className="button-row"><a className="button button--white" href="/contact?type=assessment">Request a Site Assessment</a><a className="button button--ghost-white" href="/contact">Contact Our Team</a></div></div></section>
 }
 
 export function LeadForm({ kind = 'contact' }: { kind?: 'contact' | 'support' }) {
