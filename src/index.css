@@ -2,8 +2,8 @@
 
 :root{font-family:'DM Sans',system-ui,sans-serif;color:#526176;background:#fff;font-synthesis:none;text-rendering:optimizeLegibility;--navy:#07172f;--navy2:#0b2444;--blue:#1268e8;--cyan:#23c5e8;--ink:#0b1b33;--muted:#607087;--line:#dfe7f0;--soft:#f3f7fb;--white:#fff;--green:#2bc48a}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:clamp(88px,9vw,118px)}
-body{margin:0;min-width:320px;overflow-x:clip}
+html{width:100%;overflow-x:hidden;overflow-y:auto;scroll-behavior:smooth;scroll-padding-top:clamp(88px,9vw,118px)}
+body{width:100%;margin:0;min-width:320px;overflow-x:hidden;overflow-y:auto}
 button,input,select,textarea{font:inherit}
 a{color:inherit}
 img{max-width:100%}
