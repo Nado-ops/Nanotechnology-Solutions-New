@@ -35,7 +35,7 @@ export function Header() {
 export function Footer() {
   return <footer className="footer">
     <div className="container footer__grid">
-      <div><Logo compact /><p>{company.nationwideServicesStatement}</p><p className="tagline">{company.tagline}</p></div>
+      <div><Logo compact /><p>Reliable infrastructure, cloud, education technology, software and support for schools, universities, colleges, QCTO providers, skills-development institutions and organisations across {company.country}.</p><p className="tagline">{company.tagline}</p></div>
       <div><h3>Company</h3><a href="/about">About</a><a href="/industries">Industries</a><a href="/projects">Projects</a><a href="/contact">Contact</a><a href="/client-portal">Client Portal</a></div>
       <div><h3>Solutions</h3>{solutions.slice(0, 6).map(s => <a key={s.slug} href={`/solutions/${s.slug}`}>{s.title}</a>)}</div>
       <div className="footer-contact"><h3>Contact</h3><address><b>Head Office:</b>{company.address}</address><span><b>Service Area:</b>{company.serviceArea}</span><a href={company.phoneHref}><b>Telephone:</b>{company.phone}</a><a href={company.whatsappUrl} target="_blank" rel="noreferrer"><b>WhatsApp:</b>{company.phone}</a><a href={`mailto:${company.email}`}><b>Email:</b>{company.email}</a></div>
@@ -108,8 +108,8 @@ export function PageHero({ eyebrow, title, text, actions }: { eyebrow: string; t
   return <section className="page-hero"><div className="orb orb--one"></div><div className="orb orb--two"></div><div className="container page-hero__content"><nav className="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span>{eyebrow}</span></nav><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{text}</p>{actions && <div className="button-row">{actions}</div>}</div></section>
 }
 
-export function CTA({ title = `Planning a technology project anywhere in ${company.country}?`, text = 'Let us assess your requirements and design a practical technology solution for your organisation.' }) {
-  return <section className="cta" data-spotlight><div className="container cta__inner"><div><span>{company.serviceArea}</span><h2>{title}</h2><p>{text}</p></div><div className="button-row"><a className="button button--white" href="/contact?type=assessment">Request a Site Assessment</a><a className="button button--ghost-white" href="/contact?type=project">Discuss Your Project</a><a className="button button--ghost-white" href="/contact">Contact Our Team</a></div></div></section>
+export function CTA({ title = `Planning a technology project anywhere in ${company.country}?`, text = 'Let us assess your requirements and design a practical technology solution for your organisation.', discussionLabel = 'Discuss Your Project', discussionHref = '/contact?type=project' }: { title?: string; text?: string; discussionLabel?: string; discussionHref?: string }) {
+  return <section className="cta" data-spotlight><div className="container cta__inner"><div><span>{company.serviceArea}</span><h2>{title}</h2><p>{text}</p></div><div className="button-row"><a className="button button--ghost-white" href={discussionHref}>{discussionLabel}</a><a className="button button--white" href="/contact?type=assessment">Request a Site Assessment</a><a className="button button--ghost-white" href="/contact">Contact Our Team</a></div></div></section>
 }
 
 export function LeadForm({ kind = 'contact' }: { kind?: 'contact' | 'support' }) {

@@ -13,7 +13,7 @@ export const company = {
   headOfficeCity: 'Cape Town',
   country: 'South Africa',
   nationwideSupport: true,
-  serviceAreaStatement: 'Serving schools, organisations and businesses across South Africa.',
+  serviceAreaStatement: 'Serving schools, universities, colleges, QCTO-accredited providers, training organisations and skills-development institutions across South Africa.',
   nationwideServicesStatement: 'Nationwide IT infrastructure, education technology, cloud, software and creative services.',
   website: 'https://nanotechnology6.co.za',
   supportEmail: '',

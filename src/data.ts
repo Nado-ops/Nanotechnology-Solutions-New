@@ -1,6 +1,7 @@
 export type Solution = {
   slug: string
   title: string
+  pageTitle?: string
   short: string
   icon: string
   intro: string
@@ -33,13 +34,14 @@ export const solutions: Solution[] = [
   },
   {
     slug: 'education-technology', title: 'Education Technology', icon: '◇',
-    short: 'Infrastructure, platforms and onboarding built for modern teaching and learning.',
-    intro: 'We understand that education technology must work for administrators, lecturers, students and support teams—not only the IT department.',
+    pageTitle: 'Technology for Education, Higher Education and Skills Development',
+    short: 'Infrastructure, learning platforms and information systems for education and skills-development institutions.',
+    intro: 'Technology environments designed for schools, universities, colleges, QCTO-accredited providers, occupational training organisations and skills-development institutions across South Africa.',
     cta: 'Discuss Your Education Technology Project',
     groups: [
-      { title: 'Campus infrastructure', items: ['School and campus Wi-Fi', 'Computer, CAT, coding and robotics laboratories', 'Classroom and lecturer workstations', 'Projectors and interactive displays', 'Network cabinets and server rooms', 'Student printing', 'Library technology', 'UPS and backup power planning'] },
-      { title: 'Education platforms', items: ['Moodle installations, migrations and upgrades', 'Student Information Systems', 'Student, lecturer, parent and application portals', 'Admissions and finance workflows', 'Microsoft 365 Education', 'Teams, SharePoint and OneDrive', 'Single sign-on and role-based access'] },
-      { title: 'Enablement & data', items: ['Course administration and enrolment', 'Lecturer and student onboarding', 'Reporting dashboards', 'Data migration', 'Workflow automation', 'LMS and Microsoft 365 integrations'] },
+      { title: 'Learner and student systems', items: ['Student and learner information systems', 'Admissions and application workflows', 'Learner registration', 'Programme, module and subject management', 'Course enrolment and attendance', 'Assessment and moderation workflows', 'Portfolio of Evidence management', 'Certification and completion records'] },
+      { title: 'Learning, access and data', items: ['Moodle LMS environments', 'Student, learner and lecturer portals', 'Parent portals where applicable', 'Facilitator management', 'Assessor and moderator access', 'Role-based permissions and single sign-on', 'Finance integration', 'Reporting, analytics and data migration'] },
+      { title: 'Infrastructure and support', items: ['Microsoft 365 Education', 'Computer laboratories for schools and training centres', 'School, campus and training-centre Wi-Fi', 'Network infrastructure', 'Managed printing', 'Cloud backups', 'Technical support', 'User onboarding and platform integrations'] },
     ],
   },
   {
@@ -137,4 +139,3 @@ export const coreServices = [
   { ...solutions[3], title: 'Printing & Communications', short: 'Managed printing and flexible voice systems for connected teams.' },
   { ...solutions[8], title: 'Websites, Branding & Systems', short: 'Digital products and brand tools designed around real business needs.' },
 ]
-
