@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { FormEvent, ReactNode } from 'react'
 import { company } from './config'
 import { solutions } from './data'
@@ -11,20 +11,55 @@ export function Logo({ compact = false }: { compact?: boolean }) {
 
 export function Header() {
   const [open, setOpen] = useState(false)
+  const [solutionsOpen, setSolutionsOpen] = useState(false)
+  const solutionsMenuRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState(() => window.scrollY > 24)
+
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 24)
     window.addEventListener('scroll', update, { passive: true })
     return () => window.removeEventListener('scroll', update)
   }, [])
+
+  useEffect(() => {
+    const closeWhenClickingOutside = (event: PointerEvent) => {
+      if (!solutionsMenuRef.current?.contains(event.target as Node)) {
+        setSolutionsOpen(false)
+      }
+    }
+    const closeWithEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSolutionsOpen(false)
+    }
+
+    document.addEventListener('pointerdown', closeWhenClickingOutside)
+    document.addEventListener('keydown', closeWithEscape)
+    return () => {
+      document.removeEventListener('pointerdown', closeWhenClickingOutside)
+      document.removeEventListener('keydown', closeWithEscape)
+    }
+  }, [])
+
   return <header className={`site-header ${scrolled ? 'site-header--scrolled' : ''}`}>
     <div className="topbar"><div className="container topbar__inner"><span>Complete technology solutions for organisations</span><div><a href={company.phoneHref}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a></div></div></div>
     <div className="container nav-wrap">
       <Logo />
-      <button className="menu-toggle" type="button" aria-expanded={open} aria-controls="main-nav" onClick={() => setOpen(!open)}><span></span><span></span><span></span><b className="sr-only">Menu</b></button>
+      <button className="menu-toggle" type="button" aria-expanded={open} aria-controls="main-nav" onClick={() => { setOpen(!open); setSolutionsOpen(false) }}><span></span><span></span><span></span><b className="sr-only">Menu</b></button>
       <nav id="main-nav" className={open ? 'nav nav--open' : 'nav'} aria-label="Main navigation">
         <a href="/">Home</a>
-        <div className="nav-drop"><a href="/solutions">Solutions <span>⌄</span></a><div className="mega">{solutions.map(s => <a key={s.slug} href={`/solutions/${s.slug}`}><i>{s.icon}</i><span>{s.title}<small>{s.short}</small></span></a>)}</div></div>
+        <div className="nav-drop" ref={solutionsMenuRef}>
+          <a
+            href="/solutions"
+            aria-expanded={solutionsOpen}
+            aria-controls="solutions-menu"
+            onClick={(event) => {
+              event.preventDefault()
+              setSolutionsOpen(current => !current)
+            }}
+          >Solutions <span aria-hidden="true">⌄</span></a>
+          <div id="solutions-menu" className="mega" style={{ display: solutionsOpen ? 'grid' : 'none' }}>
+            {solutions.map(s => <a key={s.slug} href={`/solutions/${s.slug}`} onClick={() => setSolutionsOpen(false)}><i>{s.icon}</i><span>{s.title}<small>{s.short}</small></span></a>)}
+          </div>
+        </div>
         <a href="/industries">Industries</a><a href="/projects">Projects</a><a href="/about">About</a><a href="/support">Support</a><a href="/contact">Contact</a>
         <a className="button button--small nav-cta" href="/contact?type=assessment">Request a Site Assessment</a>
       </nav>
