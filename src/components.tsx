@@ -73,7 +73,7 @@ export function Footer() {
       <div><Logo compact /><p>Reliable infrastructure, cloud, education technology, software and support for schools, universities, colleges, QCTO providers, skills-development institutions and organisations across {company.country}.</p><p className="tagline">{company.tagline}</p></div>
       <div><h3>Company</h3><a href="/about">About</a><a href="/industries">Industries</a><a href="/projects">Projects</a><a href="/contact">Contact</a><a href="/client-portal">Client Portal</a></div>
       <div><h3>Solutions</h3>{solutions.slice(0, 6).map(s => <a key={s.slug} href={`/solutions/${s.slug}`}>{s.title}</a>)}<a href="/solutions/websites-software">Point of Sale Systems</a></div>
-      <div className="footer-contact"><h3>Contact</h3><address><b>Head Office:</b>{company.address}</address><span><b>Service Area:</b>{company.serviceArea}</span><a href={company.phoneHref}><b>Telephone:</b>{company.phone}</a><a href={company.whatsappUrl} target="_blank" rel="noreferrer"><b>WhatsApp:</b>{company.phone}</a><a href={`mailto:${company.email}`}><b>Email:</b>{company.email}</a></div>
+      <div className="footer-contact"><h3>Contact</h3><address><b>Head Office:</b>{company.address}</address><span><b>Service Area:</b>{company.serviceArea}</span><a href={company.phoneHref}><b>Telephone:</b>{company.phone}</a><a href={company.whatsappUrl} target="_blank" rel="noreferrer"><b>WhatsApp:</b>{company.whatsapp}</a><a href={`mailto:${company.email}`}><b>Email:</b>{company.email}</a></div>
     </div>
     <div className="container footer__bottom"><span>© {new Date().getFullYear()} {company.name}. All rights reserved.</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms & Conditions</a></div></div>
   </footer>
