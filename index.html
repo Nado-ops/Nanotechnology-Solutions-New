@@ -16,11 +16,29 @@
     <link rel="canonical" href="https://nanotechnology6.co.za/" />
     <title>Nanotechnology IT Solutions | Technology Solutions Across South Africa</title>
     <script type="application/ld+json">
-      {"@context":"https://schema.org","@graph":[{"@type":["Organization","LocalBusiness"],"@id":"https://nanotechnology6.co.za/#organization","name":"Nanotechnology IT Solutions","description":"Nationwide infrastructure, cloud, education technology, learner systems, websites, custom software, Point of Sale systems and support across South Africa.","url":"https://nanotechnology6.co.za/","logo":"https://nanotechnology6.co.za/images/logo/nanotechnology-logo.png","email":"info@nanotechnology6.co.za","telephone":"+27728254536","areaServed":{"@type":"Country","name":"South Africa"},"address":{"@type":"PostalAddress","streetAddress":"409 Imam Haron Road","addressLocality":"Cape Town","addressCountry":"ZA"},"openingHours":"Mo-Fr 08:00-17:00"},{"@type":"WebSite","url":"https://nanotechnology6.co.za/","name":"Nanotechnology IT Solutions","publisher":{"@id":"https://nanotechnology6.co.za/#organization"}}]}
+      {"@context":"https://schema.org","@graph":[{"@type":["Organization","LocalBusiness"],"@id":"https://nanotechnology6.co.za/#organization","name":"Nanotechnology IT Solutions","description":"Nationwide infrastructure, cloud, education technology, learner systems, websites, custom software, Point of Sale systems and support across South Africa.","url":"https://nanotechnology6.co.za/","logo":"https://nanotechnology6.co.za/images/logo/nanotechnology-logo.png","email":"info@nanotechnology6.co.za","telephone":"+27872653701","areaServed":{"@type":"Country","name":"South Africa"},"address":{"@type":"PostalAddress","streetAddress":"409 Imam Haron Road","addressLocality":"Cape Town","addressCountry":"ZA"},"openingHours":"Mo-Fr 08:00-17:00"},{"@type":"WebSite","url":"https://nanotechnology6.co.za/","name":"Nanotechnology IT Solutions","publisher":{"@id":"https://nanotechnology6.co.za/#organization"}}]}
     </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      (() => {
+        const whatsappNumber = '072 825 4536';
+        const fixWhatsAppLabels = () => {
+          document.querySelectorAll('a[href^="https://wa.me/27728254536"]').forEach((link) => {
+            const number = link.querySelector('b');
+            if (number && number.textContent.trim() !== whatsappNumber) {
+              number.textContent = whatsappNumber;
+            }
+          });
+        };
+
+        const observer = new MutationObserver(fixWhatsAppLabels);
+        observer.observe(document.documentElement, { childList: true, subtree: true });
+        document.addEventListener('DOMContentLoaded', fixWhatsAppLabels);
+        window.addEventListener('load', fixWhatsAppLabels);
+      })();
+    </script>
   </body>
 </html>
