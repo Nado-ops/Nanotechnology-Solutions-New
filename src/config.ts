@@ -4,6 +4,7 @@ export const company = {
   tagline: 'Connect. Secure. Support. Transform.',
   phone: '087 265 3701',
   phoneHref: 'tel:+27872653701',
+  whatsapp: '072 825 4536',
   whatsappNumber: '27728254536',
   whatsappUrl: 'https://wa.me/27728254536',
   email: 'info@nanotechnology6.co.za',
