@@ -173,6 +173,19 @@
   .logo-wrapper .brand-logo.site-logo{max-height:46px}
 }
 
+/* Performance safeguards for pointer effects and continuous animation */
+.site-header--contact,.site-header--contact.site-header--scrolled{backdrop-filter:none}
+.hero-home .hero-grid-pattern,.hero-home .float-card,.education-premium .platform-card,.creative-brand .descriptor span{animation-play-state:paused}
+.hero-home.is-in-view .hero-grid-pattern,.hero-home.is-in-view .float-card,.education-premium.is-in-view .platform-card,.creative-brand.is-in-view .descriptor span{animation-play-state:running}
+
+@media(max-width:1150px){
+  [data-spotlight]:after,.service-card:after,.portfolio-piece:after{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hero-home .hero-grid-pattern,.hero-home .float-card,.education-premium .platform-card,.creative-brand .descriptor span{animation:none}
+}
+
 /* One fixed-header offset system: main handles page entry, sections handle anchors. */
 .hero-home{padding-top:clamp(30px,4vw,52px)}
 .page-hero{padding-top:clamp(52px,6vw,78px)}

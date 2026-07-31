@@ -38,8 +38,8 @@ export function Header() {
       document.removeEventListener('keydown', closeWithEscape)
     }
   }, [])
-
-  return <header className={`site-header ${scrolled ? 'site-header--scrolled' : ''}`}>
+  const contactPage = window.location.pathname === '/contact'
+  return <header className={`site-header ${contactPage ? 'site-header--contact' : ''} ${scrolled ? 'site-header--scrolled' : ''}`}>
     <div className="topbar"><div className="container topbar__inner"><span>Complete technology solutions for organisations</span><div><a href={company.phoneHref}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a></div></div></div>
     <div className="container nav-wrap">
       <Logo />
@@ -105,7 +105,7 @@ export function ScrollToTop({ pathname }: { pathname: string }) {
 export function Layout({ children }: { children: ReactNode }) {
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    const effectsMedia = window.matchMedia('(min-width: 1151px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)')
     const revealTargets = document.querySelectorAll('.section, .service-card, .showcase-card, .industry-grid a')
     const observer = !reduced && 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -117,45 +117,62 @@ export function Layout({ children }: { children: ReactNode }) {
     }, { threshold: .08, rootMargin: '0px 0px -35px' }) : null
     revealTargets.forEach(el => observer ? observer.observe(el) : el.classList.add('is-revealed'))
 
+    const animatedSections = document.querySelectorAll('.hero-home, .education-premium, .creative-brand')
+    const animationObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+      entries.forEach(entry => entry.target.classList.toggle('is-in-view', entry.isIntersecting))
+    }, { threshold: 0, rootMargin: '100px 0px' }) : null
+    animatedSections.forEach(section => animationObserver ? animationObserver.observe(section) : section.classList.add('is-in-view'))
+
+    let animationFrame = 0
+    let latestPointerEvent: PointerEvent | null = null
     function pointerMove(event: PointerEvent) {
-      if (!finePointer || reduced) return
-      const target = (event.target as Element).closest<HTMLElement>('[data-spotlight], .service-card, .portfolio-piece')
-      if (!target) return
-      const rect = target.getBoundingClientRect()
-      target.style.setProperty('--mx', `${event.clientX - rect.left}px`)
-      target.style.setProperty('--my', `${event.clientY - rect.top}px`)
-      if (target.classList.contains('hero-home')) {
-        target.style.setProperty('--px', `${(event.clientX / window.innerWidth - .5) * 10}px`)
-        target.style.setProperty('--py', `${(event.clientY / window.innerHeight - .5) * 8}px`)
-      }
+      if (!effectsMedia.matches) return
+      latestPointerEvent = event
+      if (animationFrame) return
+      animationFrame = window.requestAnimationFrame(() => {
+        animationFrame = 0
+        const pointerEvent = latestPointerEvent
+        latestPointerEvent = null
+        if (!pointerEvent || !(pointerEvent.target instanceof Element)) return
+
+        const spotlightTarget = pointerEvent.target.closest<HTMLElement>('[data-spotlight], .service-card, .portfolio-piece')
+        if (spotlightTarget) {
+          const spotlightRect = spotlightTarget.getBoundingClientRect()
+          spotlightTarget.style.setProperty('--mx', `${pointerEvent.clientX - spotlightRect.left}px`)
+          spotlightTarget.style.setProperty('--my', `${pointerEvent.clientY - spotlightRect.top}px`)
+          if (spotlightTarget.classList.contains('hero-home')) {
+            spotlightTarget.style.setProperty('--px', `${(pointerEvent.clientX / window.innerWidth - .5) * 10}px`)
+            spotlightTarget.style.setProperty('--py', `${(pointerEvent.clientY / window.innerHeight - .5) * 8}px`)
+          }
+        }
+
+        const button = pointerEvent.target.closest<HTMLElement>('.button')
+        if (button) {
+          const buttonRect = button.getBoundingClientRect()
+          const x = (pointerEvent.clientX - buttonRect.left - buttonRect.width / 2) * .08
+          const y = (pointerEvent.clientY - buttonRect.top - buttonRect.height / 2) * .08
+          button.style.setProperty('--mag-x', `${Math.max(-4, Math.min(4, x))}px`)
+          button.style.setProperty('--mag-y', `${Math.max(-3, Math.min(3, y))}px`)
+        }
+      })
     }
-    function magneticMove(event: PointerEvent) {
-      if (!finePointer || reduced) return
-      const button = (event.target as Element).closest<HTMLElement>('.button')
-      if (!button) return
-      const rect = button.getBoundingClientRect()
-      const x = (event.clientX - rect.left - rect.width / 2) * .08
-      const y = (event.clientY - rect.top - rect.height / 2) * .08
-      button.style.setProperty('--mag-x', `${Math.max(-4, Math.min(4, x))}px`)
-      button.style.setProperty('--mag-y', `${Math.max(-3, Math.min(3, y))}px`)
+    function magneticLeave(this: HTMLElement) {
+      this.style.removeProperty('--mag-x')
+      this.style.removeProperty('--mag-y')
     }
-    function magneticLeave(event: PointerEvent) {
-      const button = (event.target as Element).closest<HTMLElement>('.button')
-      if (!button) return
-      button.style.removeProperty('--mag-x')
-      button.style.removeProperty('--mag-y')
-    }
+    const magneticButtons = document.querySelectorAll<HTMLElement>('.button')
+    magneticButtons.forEach(button => button.addEventListener('pointerleave', magneticLeave))
     document.addEventListener('pointermove', pointerMove)
-    document.addEventListener('pointermove', magneticMove)
-    document.addEventListener('pointerout', magneticLeave)
     return () => {
       observer?.disconnect()
+      animationObserver?.disconnect()
+      if (animationFrame) window.cancelAnimationFrame(animationFrame)
+      latestPointerEvent = null
       document.removeEventListener('pointermove', pointerMove)
-      document.removeEventListener('pointermove', magneticMove)
-      document.removeEventListener('pointerout', magneticLeave)
+      magneticButtons.forEach(button => button.removeEventListener('pointerleave', magneticLeave))
     }
   }, [])
-  return <><ScrollToTop pathname={window.location.pathname} /><a className="skip-link" href="#main">Skip to content</a><Header /><main id="main">{children}</main><Footer /><a className="support-fab" href="/support" aria-label="Get technical support"><span>?</span> Technical support</a></>
+  return <><ScrollToTop pathname={window.location.pathname} /><a className="skip-link" href="#main">Skip to content</a><Header /><main id="main" className={window.location.pathname === '/contact' ? 'page-contact' : undefined}>{children}</main><Footer /><a className="support-fab" href="/support" aria-label="Get technical support"><span>?</span> Technical support</a></>
 }
 
 export function SectionHeading({ eyebrow, title, text, light = false }: { eyebrow: string; title: string; text?: string; light?: boolean }) {
