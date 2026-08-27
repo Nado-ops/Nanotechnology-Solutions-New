@@ -14,14 +14,60 @@ const industries = [
   { title:'Businesses and Professional Offices', icon:'□', summary:'Connected technology for growing businesses, professional offices and corporate training departments.', services:['Managed IT services','Cloud and Microsoft 365','Corporate training platforms','Workplace-training workflows','Secure networks','Software and automation'] },
 ] as const
 function HeroVisual() {
-  return <div className="hero-visual hero-visual--photo" aria-label="Connected education, skills-development and business technology environment">
-    <img src="/assets/technology-environment.png" alt="Network cabinet, Wi-Fi access point, secure cloud systems and a connected computer laboratory" />
-    <div className="hero-visual__shade"></div>
-    <div className="visual-top"><span className="status-dot"></span>Technology environment <b>Connected & monitored</b></div>
-    <div className="float-card fc-network"><i>⌘</i><span><b>Network core</b><small>Secure infrastructure</small></span></div>
-    <div className="float-card fc-cloud"><i>☁</i><span><b>Cloud systems</b><small>Integrated services</small></span></div>
-    <div className="float-card fc-campus"><i>◇</i><span><b>Education ready</b><small>Campus connectivity</small></span></div>
-    <div className="visual-stats"><div><span>Wi-Fi</span><b>Managed</b></div><div><span>Security</span><b>Layered</b></div><div><span>Support</span><b>Responsive</b></div></div>
+  return <div
+    className="hero-visual hero-visual--3d"
+    aria-label="Interactive three-dimensional Nanotechnology IT Solutions service network"
+    onPointerMove={event => {
+      const rect = event.currentTarget.getBoundingClientRect()
+      const x = (event.clientX - rect.left) / rect.width - .5
+      const y = (event.clientY - rect.top) / rect.height - .5
+      event.currentTarget.style.setProperty('--hero-rx', `${(-y * 12).toFixed(2)}deg`)
+      event.currentTarget.style.setProperty('--hero-ry', `${(x * 16).toFixed(2)}deg`)
+      event.currentTarget.style.setProperty('--hero-mx', `${(x * 20).toFixed(2)}px`)
+      event.currentTarget.style.setProperty('--hero-my', `${(y * 16).toFixed(2)}px`)
+    }}
+    onPointerLeave={event => {
+      event.currentTarget.style.setProperty('--hero-rx', '0deg')
+      event.currentTarget.style.setProperty('--hero-ry', '0deg')
+      event.currentTarget.style.setProperty('--hero-mx', '0px')
+      event.currentTarget.style.setProperty('--hero-my', '0px')
+    }}
+  >
+    <div className="visual-top"><span className="status-dot"></span>Interactive technology core <b>Move your mouse</b></div>
+
+    <div className="tech3d-stage" aria-hidden="true">
+      <div className="tech3d-grid"></div>
+      <div className="tech3d-halo halo-one"></div>
+      <div className="tech3d-halo halo-two"></div>
+
+      <div className="tech3d-orb">
+        <div className="tech3d-shell"></div>
+        <div className="tech3d-ring ring-a"></div>
+        <div className="tech3d-ring ring-b"></div>
+        <div className="tech3d-ring ring-c"></div>
+        <div className="tech3d-axis axis-a"></div>
+        <div className="tech3d-axis axis-b"></div>
+        <div className="tech3d-core">
+          <span>N</span>
+          <small>TECH</small>
+        </div>
+
+        <span className="tech3d-dot dot-1"></span>
+        <span className="tech3d-dot dot-2"></span>
+        <span className="tech3d-dot dot-3"></span>
+        <span className="tech3d-dot dot-4"></span>
+        <span className="tech3d-dot dot-5"></span>
+        <span className="tech3d-dot dot-6"></span>
+      </div>
+
+      <div className="tech3d-service service-cloud"><i>☁</i><span><b>Cloud</b><small>Microsoft 365</small></span></div>
+      <div className="tech3d-service service-network"><i>⌘</i><span><b>Networks</b><small>Secure infrastructure</small></span></div>
+      <div className="tech3d-service service-security"><i>⬡</i><span><b>Security</b><small>Layered protection</small></span></div>
+      <div className="tech3d-service service-education"><i>◇</i><span><b>Education</b><small>LMS · SIS · Labs</small></span></div>
+      <div className="tech3d-service service-software"><i>⌗</i><span><b>Software</b><small>Web · Automation</small></span></div>
+    </div>
+
+    <div className="visual-stats"><div><span>Interaction</span><b>Mouse controlled</b></div><div><span>Systems</span><b>Connected</b></div><div><span>Support</span><b>Responsive</b></div></div>
   </div>
 }
 
